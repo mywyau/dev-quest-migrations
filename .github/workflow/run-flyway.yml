@@ -1,7 +1,8 @@
 name: Run Flyway Migration
 
+# 👇 Triggers this workflow manually from the GitHub Actions UI
 on:
-  workflow_dispatch: # manual trigger via GitHub UI
+  workflow_dispatch:
 
 jobs:
   run-migration:
@@ -9,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ✅ Step 1: Configure AWS credentials using GitHub secrets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -16,17 +18,48 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Run ECS task
+      # ✅ Step 2: Retrieve ECS & DB info from AWS SSM Parameter Store
+      - name: Fetch ECS cluster & DB info from SSM
+        id: ssm
         run: |
-          CLUSTER_NAME="SharedCluster"  # Update if needed
-          TASK_DEF=$(aws ecs describe-task-definition --task-definition FlywayMigrationTask-FlywayTaskDef --query 'taskDefinition.taskDefinitionArn' --output text)
-          SUBNET_IDS=$(aws ec2 describe-subnets --filters "Name=tag:Name,Values=private-subnet*" --query "Subnets[*].SubnetId" --output text)
-          SECURITY_GROUP_ID=$(aws ec2 describe-security-groups --filters "Name=group-name,Values=FlywayTaskSG" --query "SecurityGroups[0].GroupId" --output text)
+          # 🔍 Fetch cluster name
+          CLUSTER_NAME=$(aws ssm get-parameter --name "/devquest/ecs/cluster-name" --query "Parameter.Value" --output text)
 
-          echo "Running task: $TASK_DEF"
+          # 🔍 Fetch comma-separated private subnet IDs
+          SUBNET_IDS=$(aws ssm get-parameter --name "/devquest/vpc/private-subnet-ids" --query "Parameter.Value" --output text)
 
+          # 🔍 Fetch the security group ID for ECS tasks
+          SECURITY_GROUP_ID=$(aws ssm get-parameter --name "/devquest/backend/sg-id" --query "Parameter.Value" --output text)
+
+          # 🔍 Fetch the database host and secret ARN
+          DB_HOST=$(aws ssm get-parameter --name "/devquest/database/host" --query "Parameter.Value" --output text)
+          DB_SECRET_ARN=$(aws ssm get-parameter --name "/devquest/database/secret-arn" --query "Parameter.Value" --output text)
+
+          # ✅ Export values as GitHub environment variables
+          echo "CLUSTER_NAME=$CLUSTER_NAME" >> $GITHUB_ENV
+          echo "SUBNET_IDS=$SUBNET_IDS" >> $GITHUB_ENV
+          echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID" >> $GITHUB_ENV
+          echo "DB_HOST=$DB_HOST" >> $GITHUB_ENV
+          echo "DB_SECRET_ARN=$DB_SECRET_ARN" >> $GITHUB_ENV
+
+      # ✅ Step 3: Run the Flyway ECS Fargate task
+      - name: Run ECS Flyway task
+        run: |
+          # 🔍 Get the task definition ARN by name
+          TASK_DEF=$(aws ecs describe-task-definition \
+            --task-definition FlywayMigrationTask-FlywayTaskDef \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+
+          # 🔧 Convert comma-separated subnets into AWS CLI array format
+          SUBNETS=$(echo $SUBNET_IDS | awk -F',' '{for (i=1; i<=NF; i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')
+
+          echo "Running task definition: $TASK_DEF"
+
+          # 🚀 Launch ECS task manually using the provided network config
           aws ecs run-task \
-            --cluster $CLUSTER_NAME \
+            --cluster "$CLUSTER_NAME" \
             --launch-type FARGATE \
-            --network-configuration "awsvpcConfiguration={subnets=[$SUBNET_IDS],securityGroups=[$SECURITY_GROUP_ID],assignPublicIp=ENABLED}" \
-            --task-definition $TASK_DEF
+            --task-definition "$TASK_DEF" \
+            --network-configuration "awsvpcConfiguration={subnets=[$SUBNETS],securityGroups=[\"$SECURITY_GROUP_ID\"],assignPublicIp=ENABLED}" \
+            --count 1
