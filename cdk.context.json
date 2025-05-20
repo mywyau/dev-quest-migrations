@@ -1,0 +1,46 @@
+{
+  "vpc-provider:account=890742562318:filter.isDefault=false:filter.tag:Name=SharedInfraStack/Network/DevQuestVpc:region=us-east-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0d06054d6011933f7",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "ownerAccountId": "890742562318",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "PrivateWithEgress",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-0fc1df21118fe3297",
+            "cidr": "10.0.128.0/18",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-08ca0400dfd58d568"
+          },
+          {
+            "subnetId": "subnet-0e8f57cf2ed2e3799",
+            "cidr": "10.0.192.0/18",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-01d20da71442565d7"
+          }
+        ]
+      },
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0c19c20abf4b22d2c",
+            "cidr": "10.0.0.0/18",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-04dec8931b60c1fbb"
+          },
+          {
+            "subnetId": "subnet-09b17c38816ae0e69",
+            "cidr": "10.0.64.0/18",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-0ea1eb4c76e0b9170"
+          }
+        ]
+      }
+    ]
+  }
+}

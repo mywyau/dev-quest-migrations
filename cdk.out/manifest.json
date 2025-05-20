@@ -1,0 +1,485 @@
+{
+  "version": "41.0.0",
+  "artifacts": {
+    "FlywayMigrationStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "FlywayMigrationStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "FlywayMigrationStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://890742562318/us-east-1",
+      "properties": {
+        "templateFile": "FlywayMigrationStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::890742562318:role/cdk-hnb659fds-deploy-role-890742562318-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::890742562318:role/cdk-hnb659fds-cfn-exec-role-890742562318-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-890742562318-us-east-1/57e4ec99efe95cf8543d435c3dff4d4e6e03de95e1b87e25140538ec1694eccf.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "FlywayMigrationStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::890742562318:role/cdk-hnb659fds-lookup-role-890742562318-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "FlywayMigrationStack.assets"
+      ],
+      "metadata": {
+        "/FlywayMigrationStack": [
+          {
+            "type": "aws:cdk:error",
+            "data": "SSM parameter not available in account 890742562318, region us-east-1: /devquest/database/host",
+            "trace": [
+              "Annotations.addMessage (/Users/michaelyau/dev-irl/dev-quest-migrations/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addError (/Users/michaelyau/dev-irl/dev-quest-migrations/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1100)",
+              "Function.getValue (/Users/michaelyau/dev-irl/dev-quest-migrations/node_modules/aws-cdk-lib/core/lib/context-provider.js:2:1628)",
+              "Function.valueFromLookup (/Users/michaelyau/dev-irl/dev-quest-migrations/node_modules/aws-cdk-lib/aws-ssm/lib/parameter.js:1:8018)",
+              "new FlywayStack (/Users/michaelyau/dev-irl/dev-quest-migrations/lib/stacks/FlywayStack.ts:32:40)",
+              "Object.<anonymous> (/Users/michaelyau/dev-irl/dev-quest-migrations/bin/flyway-cdk-migration.ts:6:1)",
+              "Module._compile (node:internal/modules/cjs/loader:1734:14)",
+              "Module.m._compile (/Users/michaelyau/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1618:23)",
+              "loadTS (node:internal/modules/cjs/loader:1826:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/michaelyau/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/index.ts:1621:12)",
+              "Module.load (node:internal/modules/cjs/loader:1469:32)",
+              "Function._load (node:internal/modules/cjs/loader:1286:12)",
+              "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+              "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:151:5)",
+              "phase4 (/Users/michaelyau/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/bin.ts:649:14)",
+              "bootstrap (/Users/michaelyau/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/bin.ts:95:10)",
+              "main (/Users/michaelyau/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/bin.ts:55:10)",
+              "Object.<anonymous> (/Users/michaelyau/.npm/_npx/1bf7c3c15bf47d04/node_modules/ts-node/src/bin.ts:800:3)",
+              "Module._compile (node:internal/modules/cjs/loader:1734:14)",
+              "Object..js (node:internal/modules/cjs/loader:1899:10)",
+              "Module.load (node:internal/modules/cjs/loader:1469:32)",
+              "Function._load (node:internal/modules/cjs/loader:1286:12)",
+              "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+              "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:151:5)",
+              "node:internal/main/run_main_module:33:47"
+            ]
+          }
+        ],
+        "/FlywayMigrationStack/Vpc": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/FlywayMigrationStack/Vpc/PublicSubnet1": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/FlywayMigrationStack/Vpc/PublicSubnet2": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/FlywayMigrationStack/Vpc/PrivateWithEgressSubnet1": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/FlywayMigrationStack/Vpc/PrivateWithEgressSubnet2": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/FlywayMigrationStack/Cluster": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": "*"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/TaskRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              }
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/TaskRole/ImportTaskRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/TaskRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywayTaskDefTaskRole9AE691E4"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/TaskRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/TaskRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywayTaskDefTaskRoleDefaultPolicy2C328C9C"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywayTaskDef9F0D2E53"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/FlywayContainer/LogGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "retention": "*"
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/FlywayContainer/LogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywayTaskDefFlywayContainerLogGroup882715C7"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/ExecutionRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "assumedBy": {
+                "principalAccount": "*",
+                "assumeRoleAction": "*"
+              },
+              "roleName": "*"
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachInlinePolicy": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addToPrincipalPolicy": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/ExecutionRole/ImportExecutionRole": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/ExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywayTaskDefExecutionRole4A3CC15E"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/ExecutionRole/DefaultPolicy": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": "*"
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "attachToRole": [
+                "*"
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          },
+          {
+            "type": "aws:cdk:analytics:method",
+            "data": {
+              "addStatements": [
+                {}
+              ]
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/ExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywayTaskDefExecutionRoleDefaultPolicy6B971AB7"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywaySG": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "vpc": "*",
+              "description": "*",
+              "allowAllOutbound": true
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywaySG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywaySG9B0A99D8"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDefinitionArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywayTaskDefinitionArn4B87F78A"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywaySecurityGroupId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywaySecurityGroupIdCE2FDC15"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywaySGParam": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parameterName": "*",
+              "stringValue": "*"
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywaySGParam/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywaySGParam8B7D1427"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/DbSecretArnParam": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parameterName": "*",
+              "stringValue": "*"
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/DbSecretArnParam/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskDbSecretArnParam23750661"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/DbHostParam": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "parameterName": "*",
+              "stringValue": "*"
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/DbHostParam/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskDbHostParam62FD0506"
+          }
+        ],
+        "/FlywayMigrationStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/FlywayMigrationStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/FlywayMigrationStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "FlywayMigrationStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "missing": [
+    {
+      "key": "ssm:account=890742562318:parameterName=/devquest/database/host:region=us-east-1",
+      "provider": "ssm",
+      "props": {
+        "dummyValue": "dummy-value-for-/devquest/database/host",
+        "ignoreErrorOnMissingContext": false,
+        "account": "890742562318",
+        "region": "us-east-1",
+        "parameterName": "/devquest/database/host",
+        "lookupRoleArn": "arn:${AWS::Partition}:iam::890742562318:role/cdk-hnb659fds-lookup-role-890742562318-us-east-1"
+      }
+    }
+  ],
+  "minimumCliVersion": "2.1005.0"
+}

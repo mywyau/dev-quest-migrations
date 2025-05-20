@@ -1,0 +1,13 @@
+{
+  "name": "dev-quest-migrations",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "aws-cdk-lib": "^2.196.1",
+    "constructs": "^10.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.20"
+  }
+}

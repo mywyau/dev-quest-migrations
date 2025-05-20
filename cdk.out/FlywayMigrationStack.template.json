@@ -1,0 +1,317 @@
+{
+ "Resources": {
+  "FlywayMigrationTaskFlywayTaskDefTaskRole9AE691E4": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/TaskRole/Resource"
+   }
+  },
+  "FlywayMigrationTaskFlywayTaskDefTaskRoleDefaultPolicy2C328C9C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:GetSecretValue"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:secretsmanager:us-east-1:890742562318:secret:devquest-db-credentials-??????"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "FlywayMigrationTaskFlywayTaskDefTaskRoleDefaultPolicy2C328C9C",
+    "Roles": [
+     {
+      "Ref": "FlywayMigrationTaskFlywayTaskDefTaskRole9AE691E4"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/TaskRole/DefaultPolicy/Resource"
+   }
+  },
+  "FlywayMigrationTaskFlywayTaskDef9F0D2E53": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "FLYWAY_URL",
+        "Value": "jdbc:postgresql://dummy-value-for-/devquest/database/host:5432/dev_quest_db"
+       },
+       {
+        "Name": "FLYWAY_USER",
+        "Value": "dev_quest_user"
+       }
+      ],
+      "Essential": true,
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         "890742562318.dkr.ecr.us-east-1.",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/flyway-migrations:latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "FlywayMigrationTaskFlywayTaskDefFlywayContainerLogGroup882715C7"
+        },
+        "awslogs-stream-prefix": "flyway",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Name": "FlywayContainer",
+      "Secrets": [
+       {
+        "Name": "FLYWAY_PASSWORD",
+        "ValueFrom": "arn:aws:secretsmanager:us-east-1:890742562318:secret:devquest-db-credentials:password::"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "FlywayMigrationTaskFlywayTaskDefExecutionRole4A3CC15E",
+      "Arn"
+     ]
+    },
+    "Family": "FlywayMigrationStackFlywayMigrationTaskFlywayTaskDef157DE9E0",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "FlywayMigrationTaskFlywayTaskDefTaskRole9AE691E4",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/Resource"
+   }
+  },
+  "FlywayMigrationTaskFlywayTaskDefFlywayContainerLogGroup882715C7": {
+   "Type": "AWS::Logs::LogGroup",
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/FlywayContainer/LogGroup/Resource"
+   }
+  },
+  "FlywayMigrationTaskFlywayTaskDefExecutionRole4A3CC15E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/ExecutionRole/Resource"
+   }
+  },
+  "FlywayMigrationTaskFlywayTaskDefExecutionRoleDefaultPolicy6B971AB7": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:ecr:us-east-1:890742562318:repository/flyway-migrations"
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "FlywayMigrationTaskFlywayTaskDefFlywayContainerLogGroup882715C7",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:GetSecretValue"
+       ],
+       "Effect": "Allow",
+       "Resource": "arn:aws:secretsmanager:us-east-1:890742562318:secret:devquest-db-credentials-??????"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "FlywayMigrationTaskFlywayTaskDefExecutionRoleDefaultPolicy6B971AB7",
+    "Roles": [
+     {
+      "Ref": "FlywayMigrationTaskFlywayTaskDefExecutionRole4A3CC15E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/ExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "FlywayMigrationTaskFlywaySG9B0A99D8": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for Flyway migration task",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": "vpc-0d06054d6011933f7"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywaySG/Resource"
+   }
+  },
+  "FlywayMigrationTaskFlywaySGParam8B7D1427": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/devquest/backend/sg-id",
+    "Type": "String",
+    "Value": {
+     "Fn::GetAtt": [
+      "FlywayMigrationTaskFlywaySG9B0A99D8",
+      "GroupId"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywaySGParam/Resource"
+   }
+  },
+  "FlywayMigrationTaskDbSecretArnParam23750661": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/devquest/database/secret-arn",
+    "Type": "String",
+    "Value": "arn:aws:secretsmanager:us-east-1:890742562318:secret:devquest-db-credentials"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/DbSecretArnParam/Resource"
+   }
+  },
+  "FlywayMigrationTaskDbHostParam62FD0506": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/devquest/database/host",
+    "Type": "String",
+    "Value": "dummy-value-for-/devquest/database/host"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/DbHostParam/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VT32vCMBD+W8zjiNl0MJhv6tgYjE2c7EVkxOR00TQp+aFI6f++a7tWROZA3ENpc993X+9y33VZ5/6OdVp869tCrttazVn2HrhY0zF4G52AKbki9MQzo5j8mYFwbAyp9SpYtxtwD9MZBeFZ9sjdkgeYcL9+gIUyKihrflOd0eHCHFLp0JrAlQG3j+VU8YRlY6thmhHufUxADnakl5HUKSNUynVfCBtNIL1SuuIUCX1RKJThPKeYLeXEjuqskdVKoNA0y2clGvA2vp6NxgIarCj0b/DsqihxGHnlCfyc/7HI07rnouUYi7ZoFS7HXZcysQVyVOFxWEq0YoAETPD1by8mdIlw2WbVYU61XaLbX+zyydmYoi0dBOQ2Uy3JNZzjbnRx1UBEp8KuTtmk4scZErxwKm3S0Sta221f67cY5mghSXrBRahkD3Ry6n1SrDGOZjniDn0UwKF6Wn831qLEl6wPruPebBflVXdUM3Hj8IgtpDHk1FgJbOWvN91b1umwm9bKK9V2uB8qATau3t/7cNuQpAQAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "FlywayMigrationTaskFlywayTaskDefinitionArn4B87F78A": {
+   "Value": {
+    "Ref": "FlywayMigrationTaskFlywayTaskDef9F0D2E53"
+   }
+  },
+  "FlywayMigrationTaskFlywaySecurityGroupIdCE2FDC15": {
+   "Value": {
+    "Fn::GetAtt": [
+     "FlywayMigrationTaskFlywaySG9B0A99D8",
+     "GroupId"
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
