@@ -101,7 +101,7 @@
       "Arn"
      ]
     },
-    "Family": "FlywayMigrationStackFlywayMigrationTaskFlywayTaskDef157DE9E0",
+    "Family": "flyway-migration-task",
     "Memory": "512",
     "NetworkMode": "awsvpc",
     "RequiresCompatibilities": [

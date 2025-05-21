@@ -32,6 +32,7 @@ export class FlywayMigrationTask extends Construct {
     this.taskDefinition = new ecs.FargateTaskDefinition(this, "FlywayTaskDef", {
       cpu: 256,
       memoryLimitMiB: 512,
+      family: "flyway-migration-task", // 👈 this sets the ECS task definition family name
     });
 
     // 🐳 Add a Flyway container to the task definition

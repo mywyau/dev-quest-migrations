@@ -48,7 +48,7 @@ jobs:
         run: |
           # 🔍 Get the task definition ARN by name
           TASK_DEF=$(aws ecs describe-task-definition \
-            --task-definition FlywayMigrationTask-FlywayTaskDef \
+            --task-definition flyway-migration-task \
             --query 'taskDefinition.taskDefinitionArn' \
             --output text)
 
