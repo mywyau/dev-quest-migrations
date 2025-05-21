@@ -13,7 +13,7 @@ export default class FlywayStack extends cdk.Stack {
     const vpc = ec2.Vpc.fromLookup(this, "Vpc", {
       isDefault: false,
       tags: {
-        Name: "SharedInfraStack/Network/DevQuestVpc",
+        Name: "DevQuestVpc",
       },
     });
 
