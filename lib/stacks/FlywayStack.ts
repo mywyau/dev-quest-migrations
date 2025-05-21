@@ -34,11 +34,33 @@ export default class FlywayStack extends cdk.Stack {
       "/devquest/database/host"
     );
 
-    new FlywayMigrationTask(this, "FlywayMigrationTask", {
-      vpc,
-      cluster,
-      dbSecret,
-      dbHost,
-    });
+    const flywayMigrationTask = new FlywayMigrationTask(
+      this,
+      "FlywayMigrationTask",
+      {
+        vpc,
+        cluster,
+        dbSecret,
+        dbHost,
+      }
+    );
+
+    const dbSecurityGroupId = ssm.StringParameter.valueForStringParameter(
+      this,
+      "/devquest/database/sg-id"
+    );
+
+    const dbSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(
+      this,
+      "ImportedDbSG",
+      dbSecurityGroupId
+    );
+
+    // Allow Flyway SG to connect to RDS
+    dbSecurityGroup.addIngressRule(
+      flywayMigrationTask.securityGroup,
+      ec2.Port.tcp(5432),
+      "Allow Flyway task to access RDS"
+    );
   }
 }

@@ -64,3 +64,14 @@ jobs:
             --task-definition "$TASK_DEF" \
             --network-configuration "awsvpcConfiguration={subnets=[$SUBNETS],securityGroups=[\"$SECURITY_GROUP_ID\"],assignPublicIp=ENABLED}" \
             --count 1
+
+# aws ecs describe-tasks \
+#   --cluster dev-quest-cluster \
+#   --tasks arn:aws:ecs:us-east-1:890742562318:task-definition/flyway-migration-task:1
+
+# aws logs describe-log-streams \
+#   --log-group-name FlywayMigrationStack-FlywayMigrationTaskFlywayTaskDefFlywayContainerLogGroup882715C7-eBi2aTc19Fly \
+#   --order-by LastEventTime \
+#   --descending \
+#   --limit 1
+  
