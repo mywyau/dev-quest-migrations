@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::890742562318:role/cdk-hnb659fds-deploy-role-890742562318-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::890742562318:role/cdk-hnb659fds-cfn-exec-role-890742562318-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-890742562318-us-east-1/80cdacc0b0c60808b1c90e1c2ba37fe71fcf3ac1d0538c17588e3a33e06b107f.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-890742562318-us-east-1/b1cbe8850dba2026abde8b5d853f25f15f640710639e7884e807fa7fc69ded42.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -357,6 +357,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "FlywayMigrationTaskFlywaySecurityGroupIdCE2FDC15"
+          }
+        ],
+        "/FlywayMigrationStack/SsmParameterValue:--devquest--database--sg-id:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValuedevquestdatabasesgidC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/FlywayMigrationStack/ImportedDbSG/from FlywayMigrationStackFlywayMigrationTaskFlywaySG3FBA916E:5432": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedDbSGfromFlywayMigrationStackFlywayMigrationTaskFlywaySG3FBA916E5432A836A663"
           }
         ],
         "/FlywayMigrationStack/CDKMetadata/Default": [
