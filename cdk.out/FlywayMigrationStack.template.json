@@ -211,7 +211,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-0d06054d6011933f7"
+    "VpcId": "vpc-08dcd3fadf4c985c5"
    },
    "Metadata": {
     "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywaySG/Resource"
