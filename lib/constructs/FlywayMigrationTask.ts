@@ -60,6 +60,7 @@ export class FlywayMigrationTask extends Construct {
       vpc: props.vpc,
       description: "Security group for Flyway migration task",
       allowAllOutbound: true, // Needed for internet or RDS access
+      securityGroupName: "devquest-flyway-migration-sg", // 👈 explicit readable name
     });
 
     // 🔽 Export task definition and security group ID to CloudFormation outputs

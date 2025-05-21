@@ -204,6 +204,7 @@
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
     "GroupDescription": "Security group for Flyway migration task",
+    "GroupName": "devquest-flyway-migration-sg",
     "SecurityGroupEgress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -241,7 +242,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VTUWvCMBj8LfZxxGx1MJhv6tgQxiadb6WMmHx20TQpSapI6X/f19Y6ROZA3EMpvfvucmkuAxo+PtCwx7auz8W6r+SClh+e8TWJwJnCcoiDm4CceRKC4s8SuKUR5MZJb+xuzBzECQHuaPnMbMo8zJlbP8FSauml0b+5JmSy1MejZGK0Z1KD/cEqIllGy8goiMuAOVdkIMa7YFgGuZWay5ypEeem0D4YNtbtTC0Y8dqhgauKoFqIuZl1qplRkqNRXFZJw3r8G19TrTDAgauD/k1enIoEFpE3lsH++x9Dnve9lG2Osd4WaeHmuLsoc1MzJwlPYSGwih4y0N51y17N6Bpws812hxVRJsW2v5r0xZoix1pa8Dh7ONVmuKMrvBsDvGrACyv9rpNscr5vhgDHrcwPcuyKUmY7Uuq98AuskAiG3hbQ2h75nABTnVpwDtuODMrzwjfBmcWKebAV0UYAXbnbzeCehiG9662clH2LRZUZ0Kh9fwP/3xmhLQQAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VT0WrCMBT9FvM4YjYdDOabOjaEsYnzTWTE5NpF06QkqSKl/77baHUicyDuoZSec+/Jub0nbdZ6fGCtBl/7ppDLplYzVnwELpZ0BN7mTsCE3BB65plSbP4sQDg2gsx6Fazb9LiHyZSC8Kx45i7hAcbcL59growKyprfVKe0PzfHpbRvTeDKgDtgJVU8ZcXIapgUhHufpyB7G9IpSOaUESrjuiuEzU0gnSi9rakauqJSiHBZUuyWcmyHddfQaiVQaFKU08gG/BtfA6PRwJ6rjP5NXuyKEofIG09h9/2PJs/rXsrGNVZj0S0c111bGduKOXF4CkuJUQyQggm+PvZqQteA45jbCUuqbYJpf7XJi7N5hrF0ELB2v9VYXNMl3o02XjUQuVNhU7esMrFLhgQvnMr27ZgVre26q/V7HmYYIUk6weVAif+pcQhNPO5I/wQYmMSB93gLkEHZLA9xIO5QJYArqbES2MLfrtr3rNVid42FV6rpMMAqBTbavr8BI8Dqf0UEAAA="
    },
    "Metadata": {
     "aws:cdk:path": "FlywayMigrationStack/CDKMetadata/Default"
