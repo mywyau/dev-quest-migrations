@@ -43,5 +43,49 @@
       }
     ]
   },
-  "ssm:account=890742562318:parameterName=/devquest/database/host:region=us-east-1": "devquestbackendstack-databasedevquestpostgres27060-hbyvf5x23zji.c41ee8yywtgf.us-east-1.rds.amazonaws.com"
+  "ssm:account=890742562318:parameterName=/devquest/database/host:region=us-east-1": "devquestbackendstack-databasedevquestpostgres27060-hbyvf5x23zji.c41ee8yywtgf.us-east-1.rds.amazonaws.com",
+  "vpc-provider:account=890742562318:filter.isDefault=false:filter.tag:Name=DevQuestVpc:region=us-east-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-08dcd3fadf4c985c5",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "ownerAccountId": "890742562318",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-03ce9e4c17409778b",
+            "cidr": "10.0.0.0/18",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-0484bca011b81e388"
+          },
+          {
+            "subnetId": "subnet-07886af0cb6171d69",
+            "cidr": "10.0.64.0/18",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-04fb9c48488dde128"
+          }
+        ]
+      },
+      {
+        "name": "PrivateWithEgress",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-037f0c8a34c7e4a30",
+            "cidr": "10.0.128.0/18",
+            "availabilityZone": "us-east-1a",
+            "routeTableId": "rtb-045d8491043f2fadb"
+          },
+          {
+            "subnetId": "subnet-0678245323f3b6db6",
+            "cidr": "10.0.192.0/18",
+            "availabilityZone": "us-east-1b",
+            "routeTableId": "rtb-072cc058661218960"
+          }
+        ]
+      }
+    ]
+  }
 }
