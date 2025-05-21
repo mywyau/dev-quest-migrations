@@ -22,6 +22,7 @@ jobs:
       - name: Fetch ECS cluster & DB info from SSM
         id: ssm
         run: |
+          # These are created by dev quest cdk code/stacks just need to run that first before deploying this flyway stack
           # 🔍 Fetch cluster name
           CLUSTER_NAME=$(aws ssm get-parameter --name "/devquest/ecs/cluster-name" --query "Parameter.Value" --output text)
 

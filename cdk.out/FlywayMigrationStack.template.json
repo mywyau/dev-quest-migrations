@@ -55,7 +55,7 @@
       "Environment": [
        {
         "Name": "FLYWAY_URL",
-        "Value": "jdbc:postgresql://dummy-value-for-/devquest/database/host:5432/dev_quest_db"
+        "Value": "jdbc:postgresql://devquestbackendstack-databasedevquestpostgres27060-hbyvf5x23zji.c41ee8yywtgf.us-east-1.rds.amazonaws.com:5432/dev_quest_db"
        },
        {
         "Name": "FLYWAY_USER",
@@ -217,48 +217,10 @@
     "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywaySG/Resource"
    }
   },
-  "FlywayMigrationTaskFlywaySGParam8B7D1427": {
-   "Type": "AWS::SSM::Parameter",
-   "Properties": {
-    "Name": "/devquest/backend/sg-id",
-    "Type": "String",
-    "Value": {
-     "Fn::GetAtt": [
-      "FlywayMigrationTaskFlywaySG9B0A99D8",
-      "GroupId"
-     ]
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywaySGParam/Resource"
-   }
-  },
-  "FlywayMigrationTaskDbSecretArnParam23750661": {
-   "Type": "AWS::SSM::Parameter",
-   "Properties": {
-    "Name": "/devquest/database/secret-arn",
-    "Type": "String",
-    "Value": "arn:aws:secretsmanager:us-east-1:890742562318:secret:devquest-db-credentials"
-   },
-   "Metadata": {
-    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/DbSecretArnParam/Resource"
-   }
-  },
-  "FlywayMigrationTaskDbHostParam62FD0506": {
-   "Type": "AWS::SSM::Parameter",
-   "Properties": {
-    "Name": "/devquest/database/host",
-    "Type": "String",
-    "Value": "dummy-value-for-/devquest/database/host"
-   },
-   "Metadata": {
-    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/DbHostParam/Resource"
-   }
-  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VT32vCMBD+W8zjiNl0MJhv6tgYjE2c7EVkxOR00TQp+aFI6f++a7tWROZA3ENpc993X+9y33VZ5/6OdVp869tCrttazVn2HrhY0zF4G52AKbki9MQzo5j8mYFwbAyp9SpYtxtwD9MZBeFZ9sjdkgeYcL9+gIUyKihrflOd0eHCHFLp0JrAlQG3j+VU8YRlY6thmhHufUxADnakl5HUKSNUynVfCBtNIL1SuuIUCX1RKJThPKeYLeXEjuqskdVKoNA0y2clGvA2vp6NxgIarCj0b/DsqihxGHnlCfyc/7HI07rnouUYi7ZoFS7HXZcysQVyVOFxWEq0YoAETPD1by8mdIlw2WbVYU61XaLbX+zyydmYoi0dBOQ2Uy3JNZzjbnRx1UBEp8KuTtmk4scZErxwKm3S0Sta221f67cY5mghSXrBRahkD3Ry6n1SrDGOZjniDn0UwKF6Wn831qLEl6wPruPebBflVXdUM3Hj8IgtpDHk1FgJbOWvN91b1umwm9bKK9V2uB8qATau3t/7cNuQpAQAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VTXWvCMBT9LevjiNnqYDDf1LExGJt0vpUyYnJ10TQp+VCk9L/vtrUOkTkQ91BKz7nn5N7ekz6NH+5pfMU2rsfFqqfkjJYfnvEVScCZYDmk0XVETjwZQfFnCdzSBArjpDd2O2IO0owAd7R8YnbBPEyZWz3CXGrppdG/uWZkPNeHpWRstGdSg/3BKiJZTsvEKEjLiDkXchCjbTQoo8JKzWXB1JBzE7SPBo11W1MLhrx2aOCqIqgWYmomnWpilORolJZV1rAe/8bXi1bYwJ6rG/2bPLsrEllE3lgOu+9/bPK077lss8Z6LNLCzbq7VqamZo46PIaFwCh6yEF71x17MaNLwM2Y7YQVUWaBaX81i2drQoGxtOCxdr/VprijK7wbfbxqwIOVfttJ1gXfJUOA41YWezlmRSmzGSr1HvwMIySigbcBWtsDH0w1QlhWBF8RbQTQpbtZ9+9oHNPbq6WTsmcxgzIHmrTvb+mqOq8IBAAA"
    },
    "Metadata": {
     "aws:cdk:path": "FlywayMigrationStack/CDKMetadata/Default"
