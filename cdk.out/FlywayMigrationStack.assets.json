@@ -1,7 +1,7 @@
 {
   "version": "41.0.0",
   "files": {
-    "57e4ec99efe95cf8543d435c3dff4d4e6e03de95e1b87e25140538ec1694eccf": {
+    "e5b6648a0954cb46d73ebc7082b1836b96bea7bd27294691f2c266d582afbb44": {
       "displayName": "FlywayMigrationStack Template",
       "source": {
         "path": "FlywayMigrationStack.template.json",
@@ -10,7 +10,7 @@
       "destinations": {
         "890742562318-us-east-1": {
           "bucketName": "cdk-hnb659fds-assets-890742562318-us-east-1",
-          "objectKey": "57e4ec99efe95cf8543d435c3dff4d4e6e03de95e1b87e25140538ec1694eccf.json",
+          "objectKey": "e5b6648a0954cb46d73ebc7082b1836b96bea7bd27294691f2c266d582afbb44.json",
           "region": "us-east-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::890742562318:role/cdk-hnb659fds-file-publishing-role-890742562318-us-east-1"
         }

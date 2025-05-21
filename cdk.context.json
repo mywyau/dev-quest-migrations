@@ -42,5 +42,6 @@
         ]
       }
     ]
-  }
+  },
+  "ssm:account=890742562318:parameterName=/devquest/database/host:region=us-east-1": "devquestbackendstack-databasedevquestpostgres27060-hbyvf5x23zji.c41ee8yywtgf.us-east-1.rds.amazonaws.com"
 }

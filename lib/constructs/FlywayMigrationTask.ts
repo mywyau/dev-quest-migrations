@@ -69,21 +69,5 @@ export class FlywayMigrationTask extends Construct {
     new cdk.CfnOutput(this, "FlywaySecurityGroupId", {
       value: this.securityGroup.securityGroupId,
     });
-
-    // 🧪 Publish key runtime values to SSM so GitHub Actions can fetch them
-    new cdk.aws_ssm.StringParameter(this, "FlywaySGParam", {
-      parameterName: "/devquest/backend/sg-id",
-      stringValue: this.securityGroup.securityGroupId,
-    });
-
-    new cdk.aws_ssm.StringParameter(this, "DbSecretArnParam", {
-      parameterName: "/devquest/database/secret-arn",
-      stringValue: props.dbSecret.secretArn,
-    });
-
-    new cdk.aws_ssm.StringParameter(this, "DbHostParam", {
-      parameterName: "/devquest/database/host",
-      stringValue: props.dbHost,
-    });
   }
 }

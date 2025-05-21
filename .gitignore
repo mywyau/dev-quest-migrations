@@ -1,0 +1,45 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# CDK
+cdk.out/
+.context.json
+
+# TypeScript
+*.tsbuildinfo
+dist/
+build/
+
+
+# VS Code
+.vscode/
+
+# dotenv / local secrets
+.env
+.env.*
+
+# AWS credentials (just in case)
+.aws/
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# Terraform (if you mix it in)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# IDEs
+.idea/
+*.sw?
+
+# Others
+*.bak
+*.tmp
