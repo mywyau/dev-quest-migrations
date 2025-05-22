@@ -55,7 +55,7 @@
       "Environment": [
        {
         "Name": "FLYWAY_URL",
-        "Value": "jdbc:postgresql://devquestbackendstack-databasedevquestpostgres27060-hbyvf5x23zji.c41ee8yywtgf.us-east-1.rds.amazonaws.com:5432/dev_quest_db"
+        "Value": "jdbc:postgresql://devquestbackendstack-databasedevquestpostgres27060-hdmoes47swff.c41ee8yywtgf.us-east-1.rds.amazonaws.com:5432/dev_quest_db"
        },
        {
         "Name": "FLYWAY_USER",
@@ -79,7 +79,7 @@
        "LogDriver": "awslogs",
        "Options": {
         "awslogs-group": {
-         "Ref": "FlywayMigrationTaskFlywayTaskDefFlywayContainerLogGroup882715C7"
+         "Ref": "FlywayMigrationTaskFlywayLogGroupA603F567"
         },
         "awslogs-stream-prefix": "flyway",
         "awslogs-region": "us-east-1"
@@ -116,14 +116,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/Resource"
-   }
-  },
-  "FlywayMigrationTaskFlywayTaskDefFlywayContainerLogGroup882715C7": {
-   "Type": "AWS::Logs::LogGroup",
-   "UpdateReplacePolicy": "Retain",
-   "DeletionPolicy": "Retain",
-   "Metadata": {
-    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/FlywayContainer/LogGroup/Resource"
    }
   },
   "FlywayMigrationTaskFlywayTaskDefExecutionRole4A3CC15E": {
@@ -173,7 +165,7 @@
        "Effect": "Allow",
        "Resource": {
         "Fn::GetAtt": [
-         "FlywayMigrationTaskFlywayTaskDefFlywayContainerLogGroup882715C7",
+         "FlywayMigrationTaskFlywayLogGroupA603F567",
          "Arn"
         ]
        }
@@ -200,6 +192,18 @@
     "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/ExecutionRole/DefaultPolicy/Resource"
    }
   },
+  "FlywayMigrationTaskFlywayLogGroupA603F567": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/devquest/flyway",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywayLogGroup/Resource"
+   }
+  },
   "FlywayMigrationTaskFlywaySG9B0A99D8": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
@@ -212,7 +216,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-08dcd3fadf4c985c5"
+    "VpcId": "vpc-0b2365fd1215760aa"
    },
    "Metadata": {
     "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywaySG/Resource"
@@ -242,7 +246,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7VT0WrCMBT9FvM4YjYdDOabOjaEsYnzTWTE5NpF06QkqSKl/77baHUicyDuoZSec+/Jub0nbdZ6fGCtBl/7ppDLplYzVnwELpZ0BN7mTsCE3BB65plSbP4sQDg2gsx6Fazb9LiHyZSC8Kx45i7hAcbcL59growKyprfVKe0PzfHpbRvTeDKgDtgJVU8ZcXIapgUhHufpyB7G9IpSOaUESrjuiuEzU0gnSi9rakauqJSiHBZUuyWcmyHddfQaiVQaFKU08gG/BtfA6PRwJ6rjP5NXuyKEofIG09h9/2PJs/rXsrGNVZj0S0c111bGduKOXF4CkuJUQyQggm+PvZqQteA45jbCUuqbYJpf7XJi7N5hrF0ELB2v9VYXNMl3o02XjUQuVNhU7esMrFLhgQvnMr27ZgVre26q/V7HmYYIUk6weVAif+pcQhNPO5I/wQYmMSB93gLkEHZLA9xIO5QJYArqbES2MLfrtr3rNVid42FV6rpMMAqBTbavr8BI8Dqf0UEAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/7WTUUvDMBDHP4t5lCy6CYp7m4oyEB1zb2NITM6ZLc2VJJ2M0u/uNV03ZThB9KG0+V/vl7vcPz3RvTwX3SP5HjpKLzvWvIjyKUq15GMIWHgFU3bM+IFnxin5uQTlxRhyDCaiX1/JANMZBxVEeSv9XEaYyLC8gVfjTDTovqPO+PWr+/orv0YXpXHgd1rFjcxEOUYL05LJEIoM9NWa9UuWe+OUyaUdKIWFi6yf0M0/dcJA1YQkVxWnbK0nOGqzRmiNItC0rGYpGuk03obOUgHbWF3oz8FfV8WZJ+VBZrBZ/2ORh7m/jaYx1m3xRk7jbkuZYB3Zq3Bf1pqsGCEDF0O77Z+B/kJObTYdVtzinNx+j/M7j0VOtrSbz+0gaa4QKT0N+qJeZbjanRzTEKLHNWu4Lamia9SjWwmq8CauW/oqVxsopSlv8q1/yFbW4vvA2scivpDbNOtHXwBn4TNj56+03Rf+njB0cw8h0IWhCGHzIqbepSdKBF9xhxrEIpysemei2xWnR4tgTMeT100GYty8PwDj+6l/cAQAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "FlywayMigrationStack/CDKMetadata/Default"

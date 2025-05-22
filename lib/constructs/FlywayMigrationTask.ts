@@ -2,6 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as ecr from "aws-cdk-lib/aws-ecr";
 import * as ecs from "aws-cdk-lib/aws-ecs";
+import * as logs from "aws-cdk-lib/aws-logs";
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import { Construct } from "constructs";
 
@@ -35,10 +36,19 @@ export class FlywayMigrationTask extends Construct {
       family: "flyway-migration-task", // 👈 this sets the ECS task definition family name
     });
 
+    const flywayLogGroup = new logs.LogGroup(this, "FlywayLogGroup", {
+      logGroupName: "/devquest/flyway", // 👈 custom, readable name
+      retention: logs.RetentionDays.ONE_WEEK, // or change as needed
+      removalPolicy: cdk.RemovalPolicy.DESTROY, // auto-clean in dev/staging
+    });
+
     // 🐳 Add a Flyway container to the task definition
     this.taskDefinition.addContainer("FlywayContainer", {
       image: ecs.ContainerImage.fromEcrRepository(repo, "latest"), // 🏷️ Uses the 'latest' tag
-      logging: ecs.LogDriver.awsLogs({ streamPrefix: "flyway" }), // 📘 Logs go to CloudWatch
+      logging: ecs.LogDriver.awsLogs({
+        streamPrefix: "flyway",
+        logGroup: flywayLogGroup,
+      }),
       environment: {
         FLYWAY_URL: `jdbc:postgresql://${props.dbHost}:5432/dev_quest_db`, // 💾 JDBC connection string
         FLYWAY_USER: "dev_quest_user",

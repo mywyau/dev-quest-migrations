@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::890742562318:role/cdk-hnb659fds-deploy-role-890742562318-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::890742562318:role/cdk-hnb659fds-cfn-exec-role-890742562318-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-890742562318-us-east-1/609b5804db4ddc40851523457eba746db4c8a8d88f9fba5c29a89a9115775ca4.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-890742562318-us-east-1/9b26f479f0dc6a1abcc9f43907fc22a71c3865a9b2150cd918926ebcd94aa26c.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -40,25 +40,25 @@
             "data": "*"
           }
         ],
-        "/FlywayMigrationStack/Vpc/PublicSubnet1": [
+        "/FlywayMigrationStack/Vpc/PublicSubnetSubnet1": [
           {
             "type": "aws:cdk:analytics:construct",
             "data": "*"
           }
         ],
-        "/FlywayMigrationStack/Vpc/PublicSubnet2": [
+        "/FlywayMigrationStack/Vpc/PublicSubnetSubnet2": [
           {
             "type": "aws:cdk:analytics:construct",
             "data": "*"
           }
         ],
-        "/FlywayMigrationStack/Vpc/PrivateWithEgressSubnet1": [
+        "/FlywayMigrationStack/Vpc/PrivateSubnetSubnet1": [
           {
             "type": "aws:cdk:analytics:construct",
             "data": "*"
           }
         ],
-        "/FlywayMigrationStack/Vpc/PrivateWithEgressSubnet2": [
+        "/FlywayMigrationStack/Vpc/PrivateSubnetSubnet2": [
           {
             "type": "aws:cdk:analytics:construct",
             "data": "*"
@@ -183,20 +183,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "FlywayMigrationTaskFlywayTaskDef9F0D2E53"
-          }
-        ],
-        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/FlywayContainer/LogGroup": [
-          {
-            "type": "aws:cdk:analytics:construct",
-            "data": {
-              "retention": "*"
-            }
-          }
-        ],
-        "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/FlywayContainer/LogGroup/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "FlywayMigrationTaskFlywayTaskDefFlywayContainerLogGroup882715C7"
           }
         ],
         "/FlywayMigrationStack/FlywayMigrationTask/FlywayTaskDef/ExecutionRole": [
@@ -329,6 +315,22 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "FlywayMigrationTaskFlywayTaskDefExecutionRoleDefaultPolicy6B971AB7"
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayLogGroup": [
+          {
+            "type": "aws:cdk:analytics:construct",
+            "data": {
+              "logGroupName": "*",
+              "retention": 7,
+              "removalPolicy": "destroy"
+            }
+          }
+        ],
+        "/FlywayMigrationStack/FlywayMigrationTask/FlywayLogGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FlywayMigrationTaskFlywayLogGroupA603F567"
           }
         ],
         "/FlywayMigrationStack/FlywayMigrationTask/FlywaySG": [

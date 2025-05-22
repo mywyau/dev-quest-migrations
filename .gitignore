@@ -8,6 +8,7 @@ package-lock.json
 # CDK
 cdk.out/
 .context.json
+cdk.context.json
 
 # TypeScript
 *.tsbuildinfo
