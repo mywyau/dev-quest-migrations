@@ -55,7 +55,7 @@
       "Environment": [
        {
         "Name": "FLYWAY_URL",
-        "Value": "jdbc:postgresql://devquestbackendstack-databasedevquestpostgres27060-hdmoes47swff.c41ee8yywtgf.us-east-1.rds.amazonaws.com:5432/dev_quest_db"
+        "Value": "jdbc:postgresql://devquestbackendstack-databasedevquestpostgres27060-xvuh5jobcwut.c41ee8yywtgf.us-east-1.rds.amazonaws.com:5432/dev_quest_db"
        },
        {
         "Name": "FLYWAY_USER",
@@ -216,7 +216,7 @@
       "IpProtocol": "-1"
      }
     ],
-    "VpcId": "vpc-0b2365fd1215760aa"
+    "VpcId": "vpc-09206f334ee9f6737"
    },
    "Metadata": {
     "aws:cdk:path": "FlywayMigrationStack/FlywayMigrationTask/FlywaySG/Resource"
