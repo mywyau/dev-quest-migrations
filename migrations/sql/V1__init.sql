@@ -1,13 +1,15 @@
-DROP TABLE IF EXISTS dev_submissions;
-DROP TABLE IF EXISTS reward;
-DROP TABLE IF EXISTS quests;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_skills;
+DROP TABLE IF EXISTS quests;
+DROP TABLE IF EXISTS reward;
+DROP TABLE IF EXISTS dev_submissions;
+
 
 -- Users table
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
-    user_id VARCHAR(255) PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
+    user_id VARCHAR(255) UNIQUE,
+    username VARCHAR(255),
     email VARCHAR(255) NOT NULL,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
@@ -18,11 +20,10 @@ CREATE TABLE users (
 
 CREATE TABLE user_skills (
   id BIGSERIAL PRIMARY KEY,
-  dev_id UUID REFERENCES users(user_id),
+  dev_id VARCHAR(255),
   skill TEXT NOT NULL,
   level INT NOT NULL DEFAULT 1,
-  xp INT NOT NULL DEFAULT 0,
-  UNIQUE (user_id, skill)
+  xp INT NOT NULL DEFAULT 0
 );
 
 -- Quests table
@@ -31,25 +32,12 @@ CREATE TABLE quests (
     quest_id VARCHAR(255) NOT NULL UNIQUE,
     client_id VARCHAR(255) NOT NULL,
     dev_id VARCHAR(255),
+    rank VARCHAR(50),
     title VARCHAR(255) NOT NULL,
     description TEXT,
     acceptance_criteria TEXT NOT NULL,
     status VARCHAR(50) NOT NULL DEFAULT 'NotStarted',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
-
--- Quests Details table
-CREATE TABLE quests_details (
-    id BIGSERIAL PRIMARY KEY,
-    quest_id VARCHAR(255) NOT NULL UNIQUE,
-    client_id VARCHAR(255) NOT NULL,
-    dev_id VARCHAR(255),
     tags VARCHAR(255),
-    tier VARCHAR(255),
     deadline TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -57,6 +45,23 @@ CREATE TABLE quests_details (
     FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
+-- maybe not needed
+-- -- Quests Details table
+-- CREATE TABLE quests_details (
+--     id BIGSERIAL PRIMARY KEY,
+--     quest_id VARCHAR(255) NOT NULL UNIQUE,
+--     client_id VARCHAR(255) NOT NULL,
+--     dev_id VARCHAR(255),
+--     tags VARCHAR(255),
+--     tier VARCHAR(255),
+--     deadline TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     expires_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
+--     FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
+-- );
 
 -- Reward table
 CREATE TABLE reward (
