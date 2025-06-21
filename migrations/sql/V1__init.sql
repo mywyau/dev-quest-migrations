@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS dev_submissions;
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
     user_id VARCHAR(255) UNIQUE,
-    username VARCHAR(255),
+    username VARCHAR(50),
     email VARCHAR(255) NOT NULL,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
@@ -22,7 +22,7 @@ CREATE TABLE users (
 CREATE TABLE skill (
   id BIGSERIAL PRIMARY KEY,
   dev_id VARCHAR(255),
-  username VARCHAR(255),
+  username VARCHAR(50),
   skill VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
@@ -33,7 +33,7 @@ CREATE TABLE skill (
 CREATE TABLE language (
   id BIGSERIAL PRIMARY KEY,
   dev_id VARCHAR(255),
-  username VARCHAR(255),
+  username VARCHAR(50),
   language VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
@@ -95,4 +95,18 @@ CREATE TABLE dev_submissions (
     FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE
 );
+
+CREATE TABLE quest_estimations (
+  id BIGSERIAL PRIMARY KEY,
+  estimate_id VARCHAR(255) NOT NULL,
+  quest_id VARCHAR(255) NOT NULL REFERENCES quests(quest_id) ON DELETE CASCADE,
+  dev_id VARCHAR(255) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+  username VARCHAR(50),
+  rank VARCHAR(50),
+  comment TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (quest_id, dev_id) -- Each dev can vote once per quest
+);
+
 
