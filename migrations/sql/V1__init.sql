@@ -26,9 +26,9 @@ CREATE TABLE skill (
   skill VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill)
+  CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill),
+  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE language (
   id BIGSERIAL PRIMARY KEY,
@@ -37,7 +37,8 @@ CREATE TABLE language (
   language VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  CONSTRAINT unique_dev_language UNIQUE (dev_id, language)
+  CONSTRAINT unique_dev_language UNIQUE (dev_id, language),
+  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 
