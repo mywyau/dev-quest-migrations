@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS language;
 DROP TABLE IF EXISTS quests;
 DROP TABLE IF EXISTS reward;
 DROP TABLE IF EXISTS dev_submissions;
+DROP TABLE IF EXISTS quest_estimations;
 
 
 -- Users table
@@ -16,6 +17,7 @@ CREATE TABLE users (
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     user_type VARCHAR(50) CHECK (user_type IN ('Client', 'Dev', 'UnknownUserType')),
+    reputation INT DEFAULT 0,              
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -54,7 +56,6 @@ CREATE TABLE language (
   FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-
 -- Quests table
 CREATE TABLE quests (
     id BIGSERIAL PRIMARY KEY,
@@ -67,8 +68,8 @@ CREATE TABLE quests (
     acceptance_criteria TEXT NOT NULL,
     status VARCHAR(50) NOT NULL DEFAULT 'NotStarted',
     tags TEXT[],
-    deadline TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expires_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    estimated BOOLEAN DEFAULT FALSE,
+    avg_estimated_days DECIMAL(5,2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
@@ -78,10 +79,11 @@ CREATE TABLE quests (
 -- Reward table
 CREATE TABLE reward (
     id BIGSERIAL PRIMARY KEY,
-    quest_id VARCHAR(255) NOT NULL,
+    quest_id VARCHAR(255) NOT NULL UNIQUE,
     client_id VARCHAR(255) NOT NULL, 
     dev_id VARCHAR(255),
-    reward_value NUMERIC,
+    time_reward_value NUMERIC,
+    completion_reward_value NUMERIC,
     paid VARCHAR(50) DEFAULT 'NotPaid',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -113,11 +115,13 @@ CREATE TABLE quest_estimations (
   quest_id VARCHAR(255) NOT NULL REFERENCES quests(quest_id) ON DELETE CASCADE,
   dev_id VARCHAR(255) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
   username VARCHAR(50),
+  score INT NOT NULL CHECK (score >= 1 AND score <= 100),
+  estimated_days INT CHECK (estimated_days > 0),
   rank VARCHAR(50),
+  final_score DECIMAL(5,2),                       
   comment TEXT,
+  estimation_status VARCHAR(20) DEFAULT 'open',   
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE (quest_id, dev_id) -- Each dev can vote once per quest
+  UNIQUE (quest_id, dev_id)                       
 );
-
-
