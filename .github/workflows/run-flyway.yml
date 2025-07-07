@@ -23,20 +23,20 @@ jobs:
         id: ssm
         run: |
           # These are created by dev quest cdk code/stacks just need to run that first before deploying this flyway stack
-          # Fetch cluster name
+          # 🔍 Fetch cluster name
           CLUSTER_NAME=$(aws ssm get-parameter --name "/devquest/ecs/cluster-name" --query "Parameter.Value" --output text)
 
-          # Fetch comma-separated private subnet IDs
+          # 🔍 Fetch comma-separated private subnet IDs
           SUBNET_IDS=$(aws ssm get-parameter --name "/devquest/vpc/private-subnet-ids" --query "Parameter.Value" --output text)
 
-          # Fetch the security group ID for ECS tasks
+          # 🔍 Fetch the security group ID for ECS tasks
           SECURITY_GROUP_ID=$(aws ssm get-parameter --name "/devquest/backend/sg-id" --query "Parameter.Value" --output text)
 
-          # Fetch the database host and secret ARN
+          # 🔍 Fetch the database host and secret ARN
           DB_HOST=$(aws ssm get-parameter --name "/devquest/database/host" --query "Parameter.Value" --output text)
           DB_SECRET_ARN=$(aws ssm get-parameter --name "/devquest/database/secret-arn" --query "Parameter.Value" --output text)
 
-          # Export values as GitHub environment variables
+          # ✅ Export values as GitHub environment variables
           echo "CLUSTER_NAME=$CLUSTER_NAME" >> $GITHUB_ENV
           echo "SUBNET_IDS=$SUBNET_IDS" >> $GITHUB_ENV
           echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID" >> $GITHUB_ENV
@@ -46,18 +46,18 @@ jobs:
       # ✅ Step 3: Run the Flyway ECS Fargate task
       - name: Run ECS Flyway task
         run: |
-          # Get the task definition ARN by name
+          # 🔍 Get the task definition ARN by name
           TASK_DEF=$(aws ecs describe-task-definition \
             --task-definition flyway-migration-task \
             --query 'taskDefinition.taskDefinitionArn' \
             --output text)
 
-          # Convert comma-separated subnets into AWS CLI array format
+          # 🔧 Convert comma-separated subnets into AWS CLI array format
           SUBNETS=$(echo $SUBNET_IDS | awk -F',' '{for (i=1; i<=NF; i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')
 
           echo "Running task definition: $TASK_DEF"
 
-          # Launch ECS task manually using the provided network config
+          # 🚀 Launch ECS task manually using the provided network config
           aws ecs run-task \
             --cluster "$CLUSTER_NAME" \
             --launch-type FARGATE \

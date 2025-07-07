@@ -8,8 +8,6 @@ jobs:
   build-and-push:
     name: Build and Push Flyway Image
     runs-on: ubuntu-latest
-    outputs:
-      image-tag: ${{ steps.set-tag.outputs.image-tag }}
 
     steps:
       - name: Checkout source
@@ -29,18 +27,11 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Set image tag
-        id: set-tag
-        run: |
-          TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          echo "image-tag=v$TIMESTAMP" >> $GITHUB_OUTPUT
-
       - name: Build and push Docker image
         run: |
-          IMAGE_TAG=${{ steps.set-tag.outputs.image-tag }}
-          IMAGE_URI=890742562318.dkr.ecr.us-east-1.amazonaws.com/flyway-migrations:$IMAGE_TAG
+          IMAGE_URI=890742562318.dkr.ecr.us-east-1.amazonaws.com/flyway-migrations:latest
 
-          echo "Building image with tag $IMAGE_TAG..."
+          echo "Building image..."
           docker build -t $IMAGE_URI .
 
           echo "Pushing to ECR..."

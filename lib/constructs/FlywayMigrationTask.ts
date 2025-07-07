@@ -45,6 +45,7 @@ export class FlywayMigrationTask extends Construct {
 
     //  Add a Flyway container to the task definition
     this.taskDefinition.addContainer("FlywayContainer", {
+      // image: ecs.ContainerImage.fromEcrRepository(repo, "latest"), //Uses the 'latest' tag
       image: ecs.ContainerImage.fromEcrRepository(repo, props.flywayTag),
       logging: ecs.LogDriver.awsLogs({
         streamPrefix: "flyway",

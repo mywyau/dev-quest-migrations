@@ -1,0 +1,114 @@
+name: Build, Deploy, and Run Flyway Migration
+
+on:
+  push:
+    branches: [main]  # or use `workflow_dispatch:` if you prefer manual trigger
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPO: flyway-migrations
+  ACCOUNT_ID: 890742562318
+
+jobs:
+  build-and-push:
+    name: Build and Push Flyway Image
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.set-tag.outputs.image-tag }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set image tag
+        id: set-tag
+        run: |
+          TAG=v$(date +%Y%m%d%H%M%S)
+          echo "image-tag=$TAG" >> $GITHUB_OUTPUT
+          echo "Using tag: $TAG"
+
+      - name: Build and push Docker image
+        run: |
+          IMAGE_TAG=${{ steps.set-tag.outputs.image-tag }}
+          IMAGE_URI=${{ env.ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}:$IMAGE_TAG
+
+          docker build -t $IMAGE_URI .
+          docker push $IMAGE_URI
+
+  deploy-cdk:
+    name: Deploy CDK Stack
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    env:
+      FLYWAY_IMAGE_TAG: ${{ needs.build-and-push.outputs.image-tag }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy CDK with Flyway tag
+        run: |
+          echo "Deploying FlywayStack with tag $FLYWAY_IMAGE_TAG"
+          FLYWAY_IMAGE_TAG=$FLYWAY_IMAGE_TAG npx cdk deploy FlywayStack --require-approval never
+
+  run-migration:
+    name: Trigger Flyway ECS Task
+    needs: deploy-cdk
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Fetch ECS and DB info from SSM
+        id: ssm
+        run: |
+          CLUSTER_NAME=$(aws ssm get-parameter --name "/devquest/ecs/cluster-name" --query "Parameter.Value" --output text)
+          SUBNET_IDS=$(aws ssm get-parameter --name "/devquest/vpc/private-subnet-ids" --query "Parameter.Value" --output text)
+          SECURITY_GROUP_ID=$(aws ssm get-parameter --name "/devquest/backend/sg-id" --query "Parameter.Value" --output text)
+
+          echo "CLUSTER_NAME=$CLUSTER_NAME" >> $GITHUB_ENV
+          echo "SUBNET_IDS=$SUBNET_IDS" >> $GITHUB_ENV
+          echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID" >> $GITHUB_ENV
+
+      - name: Run ECS Flyway task
+        run: |
+          TASK_DEF=$(aws ecs describe-task-definition \
+            --task-definition flyway-migration-task \
+            --query 'taskDefinition.taskDefinitionArn' \
+            --output text)
+
+          SUBNETS=$(echo $SUBNET_IDS | awk -F',' '{for (i=1; i<=NF; i++) printf "\"%s\"%s", $i, (i<NF?",":"") }')
+
+          echo "Running task definition: $TASK_DEF"
+
+          aws ecs run-task \
+            --cluster "$CLUSTER_NAME" \
+            --launch-type FARGATE \
+            --task-definition "$TASK_DEF" \
+            --network-configuration "awsvpcConfiguration={subnets=[$SUBNETS],securityGroups=[\"$SECURITY_GROUP_ID\"],assignPublicIp=ENABLED}" \
+            --count 1
