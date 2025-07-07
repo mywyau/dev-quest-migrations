@@ -75,18 +75,19 @@ CREATE TABLE quests (
     FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
--- Reward table
+
 CREATE TABLE reward (
     id BIGSERIAL PRIMARY KEY,
-    quest_id VARCHAR(255) NOT NULL UNIQUE,
-    client_id VARCHAR(255) NOT NULL, 
+    quest_id VARCHAR(255) NOT NULL,
+    client_id VARCHAR(255) NOT NULL,
     dev_id VARCHAR(255),
     time_reward_value NUMERIC,
     completion_reward_value NUMERIC,
     paid VARCHAR(50) DEFAULT 'NotPaid',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE
+    FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE,
+    UNIQUE (quest_id, client_id) -- ✅ Composite unique constraint
 );
 
 -- Dev Submissions (uploads) table
