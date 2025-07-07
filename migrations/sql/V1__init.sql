@@ -12,12 +12,11 @@ DROP TABLE IF EXISTS quest_estimations;
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
     user_id VARCHAR(255) UNIQUE,
-    username VARCHAR(50),
+    username VARCHAR(50) UNIQUE,
     email VARCHAR(255) NOT NULL,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     user_type VARCHAR(50) CHECK (user_type IN ('Client', 'Dev', 'UnknownUserType')),
-    reputation INT DEFAULT 0,              
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
