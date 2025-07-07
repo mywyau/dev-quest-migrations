@@ -18,7 +18,7 @@ export default class FlywayStack extends cdk.Stack {
     });
 
     const cluster = ecs.Cluster.fromClusterAttributes(this, "Cluster", {
-      clusterName: "dev-quest-cluster", // 👈 your real cluster name
+      clusterName: "dev-quest-cluster", // your real cluster name
       vpc,
       securityGroups: [], // optional
     });
@@ -26,7 +26,7 @@ export default class FlywayStack extends cdk.Stack {
     const dbSecret = secretsmanager.Secret.fromSecretNameV2(
       this,
       "DbSecret",
-      "devquest-db-credentials" // 👈 your actual secret name
+      "devquest-db-credentials" // your actual secret name
     );
 
     const dbHost = ssm.StringParameter.valueFromLookup(
@@ -34,6 +34,12 @@ export default class FlywayStack extends cdk.Stack {
       "/devquest/database/host"
     );
 
+    const flywayTag =
+      process.env.FLYWAY_IMAGE_TAG ||
+      this.node.tryGetContext("flywayTag") ||
+      "latest"; // fallback default
+
+      
     const flywayMigrationTask = new FlywayMigrationTask(
       this,
       "FlywayMigrationTask",
@@ -42,6 +48,7 @@ export default class FlywayStack extends cdk.Stack {
         cluster,
         dbSecret,
         dbHost,
+        flywayTag,
       }
     );
 
