@@ -65,7 +65,7 @@ CREATE TABLE quests (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     acceptance_criteria TEXT NOT NULL,
-    status VARCHAR(50) NOT NULL DEFAULT 'NotStarted',
+    status VARCHAR(50) NOT NULL DEFAULT 'NotEstimated',
     tags TEXT[],
     estimated BOOLEAN DEFAULT FALSE,
     avg_estimated_days DECIMAL(5,2),
