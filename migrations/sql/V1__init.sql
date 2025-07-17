@@ -11,11 +11,12 @@ DROP TABLE IF EXISTS quest_estimations;
 -- Users table
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
-    user_id VARCHAR(255) UNIQUE,
+    user_id VARCHAR(100) UNIQUE,
     username VARCHAR(50) UNIQUE,
-    email VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
+    email VARCHAR(100) NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    mobile VARCHAR(50),
     user_type VARCHAR(50) CHECK (user_type IN ('Client', 'Dev', 'UnknownUserType')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -23,7 +24,7 @@ CREATE TABLE users (
 
 CREATE TABLE stripe_accounts (
   id BIGSERIAL PRIMARY KEY,
-  user_id VARCHAR(255) NOT NULL UNIQUE,
+  user_id VARCHAR(100) UNIQUE NOT NULL,
   stripe_account_id VARCHAR(255) NOT NULL UNIQUE,
   onboarded BOOLEAN DEFAULT FALSE,
   charges_enabled BOOLEAN DEFAULT FALSE,
@@ -35,7 +36,7 @@ CREATE TABLE stripe_accounts (
 
 CREATE TABLE skill (
   id BIGSERIAL PRIMARY KEY,
-  dev_id VARCHAR(255),
+  dev_id VARCHAR(100),
   username VARCHAR(50),
   skill VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
@@ -46,7 +47,7 @@ CREATE TABLE skill (
 
 CREATE TABLE language (
   id BIGSERIAL PRIMARY KEY,
-  dev_id VARCHAR(255),
+  dev_id VARCHAR(100),
   username VARCHAR(50),
   language VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
@@ -60,7 +61,7 @@ CREATE TABLE quests (
     id BIGSERIAL PRIMARY KEY,
     quest_id VARCHAR(255) NOT NULL UNIQUE,
     client_id VARCHAR(255) NOT NULL,
-    dev_id VARCHAR(255),
+    dev_id VARCHAR(100),
     rank VARCHAR(50),
     title VARCHAR(255) NOT NULL,
     description TEXT,
@@ -80,7 +81,7 @@ CREATE TABLE reward (
     id BIGSERIAL PRIMARY KEY,
     quest_id VARCHAR(255) NOT NULL,
     client_id VARCHAR(255) NOT NULL,
-    dev_id VARCHAR(255),
+    dev_id VARCHAR(100),
     time_reward_value NUMERIC,
     completion_reward_value NUMERIC,
     paid VARCHAR(50) DEFAULT 'NotPaid',
@@ -94,7 +95,7 @@ CREATE TABLE reward (
 CREATE TABLE dev_submissions (
     id BIGSERIAL PRIMARY KEY,
     client_id VARCHAR(255) NOT NULL,
-    dev_id VARCHAR(255) NOT NULL,
+    dev_id VARCHAR(100) NOT NULL,
     quest_id VARCHAR(255) NOT NULL,
     file_name VARCHAR(255) NOT NULL,
     file_type TEXT,
@@ -113,7 +114,7 @@ CREATE TABLE quest_estimations (
   id BIGSERIAL PRIMARY KEY,
   estimate_id VARCHAR(255) NOT NULL,
   quest_id VARCHAR(255) NOT NULL REFERENCES quests(quest_id) ON DELETE CASCADE,
-  dev_id VARCHAR(255) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+  dev_id VARCHAR(100) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
   username VARCHAR(50),
   score INT NOT NULL CHECK (score >= 1 AND score <= 100),
   estimated_days INT CHECK (estimated_days > 0),
