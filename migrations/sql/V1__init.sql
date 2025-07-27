@@ -68,8 +68,8 @@ CREATE TABLE quests (
     acceptance_criteria TEXT NOT NULL,
     status VARCHAR(50) NOT NULL DEFAULT 'NotEstimated',
     tags TEXT[],
+    estimation_close_at TIMESTAMPTZ,
     estimated BOOLEAN DEFAULT FALSE,
-    avg_estimated_days DECIMAL(5,2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
@@ -88,7 +88,7 @@ CREATE TABLE reward (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE,
-    UNIQUE (quest_id, client_id) -- ✅ Composite unique constraint
+    UNIQUE (quest_id, client_id) 
 );
 
 -- Dev Submissions (uploads) table
@@ -117,9 +117,7 @@ CREATE TABLE quest_estimations (
   dev_id VARCHAR(100) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
   username VARCHAR(50),
   score INT NOT NULL CHECK (score >= 1 AND score <= 100),
-  estimated_days INT CHECK (estimated_days > 0),
-  rank VARCHAR(50),
-  final_score DECIMAL(5,2),                       
+  estimated_days INT CHECK (estimated_days > 0),  
   comment TEXT,
   estimation_status VARCHAR(20) DEFAULT 'open',   
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
