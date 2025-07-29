@@ -41,6 +41,8 @@ CREATE TABLE skill (
   skill VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  next_level INT GENERATED ALWAYS AS (level + 1) STORED,
+  next_level_xp DECIMAL(10, 2),
   CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill),
   FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
@@ -52,6 +54,8 @@ CREATE TABLE language (
   language VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  next_level INT GENERATED ALWAYS AS (level + 1) STORED,
+  next_level_xp DECIMAL(10, 2),
   CONSTRAINT unique_dev_language UNIQUE (dev_id, language),
   FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
