@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS language;
 DROP TABLE IF EXISTS quests;
 DROP TABLE IF EXISTS reward;
 DROP TABLE IF EXISTS dev_submissions;
-DROP TABLE IF EXISTS quest_estimations;
+DROP TABLE IF EXISTS quest_hours;
+DROP TABLE IF EXISTS dev_bids;
 
 
 -- Users table
@@ -80,6 +81,29 @@ CREATE TABLE quests (
     FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+CREATE TABLE quest_hours (
+    id BIGSERIAL PRIMARY KEY,
+    quest_id VARCHAR(255) NOT NULL UNIQUE,
+    client_id VARCHAR(255) NOT NULL UNIQUE,
+    hours_of_work NUMERIC NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE,
+    FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    UNIQUE (quest_id, hours_of_work) 
+);
+
+CREATE TABLE dev_bids (
+    id BIGSERIAL PRIMARY KEY,
+    quest_id VARCHAR(255) NOT NULL,
+    dev_id VARCHAR(255) NOT NULL UNIQUE,
+    dev_username VARCHAR(50) NOT NULL,
+    bid  NUMERIC NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE,
+    FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
 
 CREATE TABLE reward (
     id BIGSERIAL PRIMARY KEY,
